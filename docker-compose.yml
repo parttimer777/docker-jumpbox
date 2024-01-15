@@ -1,35 +1,12 @@
 version: '3'
 
-networks:
-  my_net:
-    external: true
-
 services:
  jumpbox:
-  container_name: jumpbox2
-  hostname: jumpbox2
-  image: ghcr.io/linuxserver/baseimage-debian:latest
-  # build:
-  #   context: .
-  #   args: # use env file to set these
-  #     - UID
-  #     - USERNAME
-  #     - PASSWORD
-  # ports:
-  #   - 5900:5900
-  # security_opt:
-  #   - seccomp:unconfined #optional
-  env_file: 
-    - ../.env_file.common
-  networks:
-    - my_net
-  volumes: 
-    #- ./entrypoint.sh:/entrypoint.sh
-    - /myvol/public/shared:/shared
+  image: ghcr.io/parttimer777/docker-jumpbox:latest
+  container_name: jumpbox
+  hostname: jumpbox   # system's hostname
+  environment:
+    - PUID=1001
+    - PGID=1001
+    - TZ=America/New_York
   restart: unless-stopped
-  healthcheck:
-    test: ps -ef|grep -v grep|grep 'rfbport 5900'
-    interval: 20s
-    timeout: 3s
-    retries: 3
-    start_period: 15s
