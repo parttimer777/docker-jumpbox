@@ -4,7 +4,7 @@ Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-
 
 Syslog can be configured to send messages remotely by setting the docker environment. Vnc server and rsyslogd have been configured to run as s6 services. With s6, the container can be customized with ease.
 
-This image is continuously updated through github actions by checking the base image for updates.
+This image is continuously updated through github actions by checking the base image for updates (for those who use watchtowerr or auto-updates).
 
 ```
 version: '3'
