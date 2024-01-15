@@ -1,8 +1,10 @@
 # docker-jumpbox
 
-Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). Docker-jumpbox is a lightweight desktop using openbox and tigervnc. Syslog on the container can be configured to send messages remotely by setting the docker environment.
+Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). Docker-jumpbox runs openbox and tigervnc to provide a lightweight desktop environment. This is intended to be a simple & secure desktop container that can be used as a jumpbox.
 
-This image is continuously updated through github actions by checking the baseimage for updates.
+Syslog can be configured to send messages remotely by setting the docker environment. Vnc server and rsyslogd have been configured to run as s6 services. With s6, the container can be customized with ease.
+
+This image is continuously updated through github actions by checking the base image for updates.
 
 ```
 version: '3'
