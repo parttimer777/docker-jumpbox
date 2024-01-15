@@ -24,7 +24,7 @@ else
 fi
 
 # set system passwod
-runuser -u $VNC_USERNAME -- echo "$VNC_USERNAME:$password" | chpasswd
+echo "$VNC_USERNAME:$password" | chpasswd
 
 # set vnc password
 runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"
