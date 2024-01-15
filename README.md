@@ -1,1 +1,29 @@
 # docker-jumpbox
+
+Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). This docker a lightweight desktop using openbox, vnc, and rsyslog. Syslog can be configured by setting the docker environment to send messages remotely.
+
+This image is continuously updated through github actions by checking the baseimage for updates.
+
+```
+version: '3'
+
+secrets:
+  vncpasswd:
+    file: ./vncpasswd.secret.txt
+
+services:
+ jumpbox:
+  image: ghcr.io/parttimer777/docker-jumpbox:latest
+  container_name: jumpbox
+  hostname: jumpbox   # system's hostname
+  environment:
+    - PUID=1001
+    - PGID=1001
+    - TZ=America/New_York
+    - VNC_USERNAME=${VNC_USERNAME:?err}
+    - SYSLOG_TARGET_SERVER=${SYSLOG_TARGET_SERVER:?err}
+    - SYSLOG_TARGET_PORT=${SYSLOG_TARGET_PORT:?err}
+  restart: unless-stopped
+  secrets:
+    - vncpasswd
+```
