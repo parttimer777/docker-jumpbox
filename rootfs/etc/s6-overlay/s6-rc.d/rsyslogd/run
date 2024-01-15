@@ -4,10 +4,10 @@ echo "***** starting rsyslogd *****"
 
 
 output=""
-if [ -n "$SYSLOG_TARGET_SERVER" ]; then
-    echo "configuring syslog target $SYSLOG_TARGET_SERVER:$SYSLOG_TARGET_PORT"
+if [ -n "$SYSLOG_TARGET_HOST" ]; then
+    echo "configuring syslog target $SYSLOG_TARGET_HOST:$SYSLOG_TARGET_PORT"
     output="$(cat <<EOF
-*.* action(type="omfwd" protocol="tcp" target="$SYSLOG_TARGET_SERVER" port="$SYSLOG_TARGET_PORT" Template="RSYSLOG_SyslogProtocol23Format" TCP_Framing="octet-counted" KeepAlive="on" action.resumeRetryCount="60" queue.type="linkedlist" queue.size="50000")
+*.* action(type="omfwd" protocol="tcp" target="$SYSLOG_TARGET_HOST" port="$SYSLOG_TARGET_PORT" Template="RSYSLOG_SyslogProtocol23Format" TCP_Framing="octet-counted" KeepAlive="on" action.resumeRetryCount="60" queue.type="linkedlist" queue.size="50000")
 EOF
 )"
 fi
