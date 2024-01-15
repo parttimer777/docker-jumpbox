@@ -14,5 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: test
+      run: la -la
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag parttimer777/jumpbox:$(date +%s)
