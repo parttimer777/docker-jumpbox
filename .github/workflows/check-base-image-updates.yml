@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Check Base Image Updates
 
 on:
   schedule:
