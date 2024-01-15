@@ -1,0 +1,30 @@
+#!/usr/bin/with-contenv bash
+
+
+echo "***** adding vnc user ******"
+VNC_PUID=${VNC_PUID:-$((PUID+1))}
+VNC_PGID=${VNC_PGID:-$((PGID+1))}
+
+password="$(cat /run/secrets/vncpasswd)"
+[ $? -ne 0 ] && echo "vncpasswd secret not found" && exit 1
+
+# add user if it doesnt exist
+if [ ! "$(id $VNC_USERNAME)" ]; then
+    groupadd --gid $VNC_PGID $VNC_USERNAME
+    useradd \
+        --create-home \
+        --shell /bin/bash \
+        --uid $VNC_PUID \
+        --gid $VNC_PGID \
+        --groups sudo \
+        $VNC_USERNAME
+else
+    groupmod -o -g "$PGID" $VNC_USERNAME
+    usermod -o -u "$PUID" $VNC_USERNAME
+fi
+
+# set system passwod
+runuser -u $VNC_USERNAME -- echo "$VNC_USERNAME:$password" | chpasswd
+
+# set vnc password
+runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"

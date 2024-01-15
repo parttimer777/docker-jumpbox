@@ -1,5 +1,9 @@
 version: '3'
 
+secrets:
+  vncpasswd:
+    file: ./vncpasswd.txt
+
 services:
  jumpbox:
   image: ghcr.io/parttimer777/docker-jumpbox:latest
@@ -10,3 +14,5 @@ services:
     - PGID=1001
     - TZ=America/New_York
   restart: unless-stopped
+  secrets:
+    - vncpasswd

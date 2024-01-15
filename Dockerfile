@@ -25,12 +25,13 @@ RUN \
 
 RUN echo "alias vim='vim.tiny'" >> /etc/bash.bashrc
 
-#   healthcheck:
-#     test: ps -ef|grep -v grep|grep 'rfbport 5900'
-#     interval: 20s
-#     timeout: 3s
-#     retries: 3
-#     start_period: 15s
+# mitigate error - rsyslogd: imklog: cannot open kernel log (/proc/kmsg): Operation not permitted
+RUN sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
+
+COPY /rootfs /
+
+HEALTHCHECK --interval=5s --timeout=2s --retries=3 --start-period=15s \
+    CMD ps -ef|grep -v grep|grep 'rfbport 5900'
 
 EXPOSE 5900
 
