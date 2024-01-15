@@ -14,13 +14,13 @@ if [ ! "$(id $VNC_USERNAME)" ]; then
     useradd \
         --create-home \
         --shell /bin/bash \
-        --uid $VNC_PUID \
         --gid $VNC_PGID \
+        --uid $VNC_PUID \
         --groups sudo \
         $VNC_USERNAME
 else
-    groupmod -o -g "$PGID" $VNC_USERNAME
-    usermod -o -u "$PUID" $VNC_USERNAME
+    groupmod -o -g "$VNC_PGID" $VNC_USERNAME
+    usermod -o -u "$VNC_PUID" $VNC_USERNAME
 fi
 
 # set system passwod
