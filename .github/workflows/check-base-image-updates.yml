@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  schedule:
+    - cron: "0 0,12 * * *"
+    
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      
+    steps:
+
+    - name: Check Docker Base Image for Updates
+      id: check
+      uses: twiddler/is-my-docker-parent-image-out-of-date@v1
+      with:
+        parent-image: ghcr.io/linuxserver/baseimage-debian:bookworm
+        my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+    - uses: ./.github/workflows/docker-image.yml
+      if: steps.check.outputs.out-of-date == 'true'
