@@ -30,6 +30,8 @@ RUN sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
 
 COPY /rootfs /
 
+RUN echo 123
+
 HEALTHCHECK --interval=5s --timeout=2s --retries=3 --start-period=15s \
     CMD ps -ef|grep -v grep|grep 'rfbport 5900'
 

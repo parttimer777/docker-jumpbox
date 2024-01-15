@@ -13,6 +13,9 @@ services:
     - PUID=1001
     - PGID=1001
     - TZ=America/New_York
+    - VNC_USERNAME=${VNC_USERNAME:?err}
+    - SYSLOG_TARGET_SERVER=${SYSLOG_TARGET_SERVER:?err}
+    - SYSLOG_TARGET_PORT=${SYSLOG_TARGET_PORT:?err}
   restart: unless-stopped
   secrets:
     - vncpasswd
