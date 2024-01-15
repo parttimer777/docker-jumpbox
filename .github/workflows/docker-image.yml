@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  schedule:
-    - cron: "0 4 * * *"
+  workflow_call:
+    
     
 env:
   REGISTRY: ghcr.io
