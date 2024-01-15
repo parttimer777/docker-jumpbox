@@ -26,6 +26,12 @@ jobs:
     
     # - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag parttimer777/jumpbox:$(date +%s)
+    - uses: lucacome/docker-image-update-checker@v1.2.1
+      id: baseupdatecheck
+      with:
+        base-image: ghcr.io/linuxserver/baseimage-debian:bookworm
+        image:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      
 
     - name: Log in to the Container registry
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -33,7 +39,8 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        
+      if: steps.baseupdatecheck.outputs.needs-updating == 'true'
+
     # - name: Extract metadata (tags, labels) for Docker
     #   id: meta
     #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
@@ -47,7 +54,7 @@ jobs:
         push: true
         tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
         #labels: ${{ steps.meta.outputs.labels }}
-    
+      if: steps.baseupdatecheck.outputs.needs-updating == 'true'
           
 
     # - name: Build and push Docker image
