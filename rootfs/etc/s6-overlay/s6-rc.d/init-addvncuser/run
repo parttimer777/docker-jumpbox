@@ -26,5 +26,5 @@ fi
 # set system passwod
 echo "$VNC_USERNAME:$password" | chpasswd
 
-# set vnc password
-runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"
+# set vnc password -- turn off so novnc can connect seamlessly. using google auth anyways.
+# runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"

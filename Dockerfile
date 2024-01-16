@@ -8,6 +8,7 @@ RUN \
         xfce4-terminal \
         vim.tiny \ 
         menu \
+        novnc \
         tigervnc-standalone-server \
         tigervnc-tools \
         firefox-esr \
