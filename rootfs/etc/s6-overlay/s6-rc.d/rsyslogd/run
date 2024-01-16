@@ -13,4 +13,4 @@ EOF
 fi
 echo "$output" > /etc/rsyslog.d/99-remote-target.conf
 
-exec rsyslogd -f /etc/rsyslog.conf -n
+rsyslogd -f /etc/rsyslog.conf -n

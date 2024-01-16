@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv bash
 
 echo "***** starting novnc *****"
-exec runuser -u $VNC_USERNAME -- /usr/share/novnc/utils/novnc_proxy --vnc localhost:5900 --listen 0.0.0.0:6080
+runuser -u $VNC_USERNAME -- /usr/share/novnc/utils/novnc_proxy --vnc localhost:5900 --listen 0.0.0.0:6080
