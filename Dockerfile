@@ -9,10 +9,9 @@ RUN \
         vim.tiny \ 
         menu \
         novnc \
-        tigervnc-standalone-server \
-        tigervnc-tools \
+        xvfb \
+        x11vnc \
         firefox-esr \
-        x11-xserver-utils \
         openssh-client \
         sudo \
         rsyslog && \

@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+
+echo "***** starting x11vnc *****"
+# Setup env variables
+export DISPLAY=:99
+
+runuser -u $VNC_USERNAME -- x11vnc -autoport 5900 -localhost

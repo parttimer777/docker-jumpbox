@@ -16,7 +16,7 @@ if [ ! "$(id $VNC_USERNAME)" ]; then
         --shell /bin/bash \
         --gid $VNC_PGID \
         --uid $VNC_PUID \
-        --groups sudo \
+        --groups sudo,audio,video \
         $VNC_USERNAME
 else
     groupmod -o -g "$VNC_PGID" $VNC_USERNAME
