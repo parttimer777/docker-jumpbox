@@ -1,9 +1,17 @@
 #!/usr/bin/with-contenv bash
 
 echo "***** starting vnc as $VNC_USERNAME *****"
+
 # accept connection only from localhost (noVNC service) 
-# disable password requirement (SecurityTypes)
+vnc_args=()
+
+if [ "${DISABLE_VNC_PASSWORD:-false}" == "true" ]; then
+    # disable vnc password requirement
+    vnc_args+=("-SecurityTypes" "None")
+fi
+
 runuser -u $VNC_USERNAME -- vncserver \
     -localhost yes \
-    -depth 16 -fg :0  \
-    -SecurityTypes None 
+    -depth 16 \
+    -fg :0 \
+    "${vnc_args[@]}"

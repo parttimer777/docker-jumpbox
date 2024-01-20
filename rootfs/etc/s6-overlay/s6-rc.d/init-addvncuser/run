@@ -16,7 +16,7 @@ if [ ! "$(id $VNC_USERNAME)" ]; then
         --shell /bin/bash \
         --gid $VNC_PGID \
         --uid $VNC_PUID \
-        --groups sudo,audio,video \
+        --groups sudo \
         $VNC_USERNAME
 else
     groupmod -o -g "$VNC_PGID" $VNC_USERNAME
@@ -26,5 +26,8 @@ fi
 # set system passwod
 echo "$VNC_USERNAME:$password" | chpasswd
 
-# set vnc password -- turn off so novnc can connect seamlessly. using google auth anyways.
-# runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"
+# set vnc password
+if [ "${DISABLE_VNC_PASSWORD:-false}" != "true" ]; then
+    runuser -u $VNC_USERNAME -- bash -c "echo -e '${password}\n${password}\nn' | /usr/bin/vncpasswd"
+fi
+

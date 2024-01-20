@@ -1,8 +1,12 @@
 # docker-jumpbox
 
-Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). Docker-jumpbox runs openbox and tigervnc to provide a lightweight desktop environment. This is intended to be a simple & secure desktop container that can be used as a jumpbox.
+Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). 
 
-Syslog can be configured to send messages remotely by setting the docker environment. Vnc server and rsyslogd have been configured to run as s6 services. With s6, the container can be customized with ease.
+Docker-jumpbox is intended to be a simple & secure desktop container that can be used as a jumpbox.
+* Lightweight desktop environment based on Openbox and TigerVNC
+* Self-contained, includes noVNC as the web-based VNC client
+* Built with s6 overlay so it can run custom startup scripts and services
+* Includes Rsyslog and can be configured to send messages remotely by setting the docker environment
 
 This image is continuously updated through github actions by checking the base image for updates (for those who use watchtowerr or auto-updates).
 
@@ -25,6 +29,9 @@ services:
     - VNC_USERNAME=${VNC_USERNAME:?err}
     - SYSLOG_TARGET_HOST=${SYSLOG_TARGET_HOST:?err}
     - SYSLOG_TARGET_PORT=${SYSLOG_TARGET_PORT:?err}
+    - DISABLE_VNC_PASSWORD=false  # set to true to login to vnc without a password if you have other means of auth
+  ports:
+    - 6080:6080  # noVNC web service
   restart: unless-stopped
   secrets:
     - vncpasswd
