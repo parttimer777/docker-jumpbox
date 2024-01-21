@@ -1,15 +1,13 @@
 # docker-jumpbox
 
-Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). 
-
 Docker-jumpbox is intended to be a simple & secure desktop container that can be used as a jumpbox.
 * Lightweight desktop environment based on Openbox and TigerVNC
 * Self-contained, includes noVNC as the web-based VNC client
-* Built with s6 overlay so it can run custom startup scripts and services
-* Includes Rsyslog and can be configured to send messages remotely by setting the docker environment
+* Built with s6 overlay, allowing custom startup scripts and services
+* Includes Rsyslog and can be configured to send messages remotely
+* Image is automatically updated and built
 
-This image is continuously updated through github actions by checking the base image for updates (for those who use watchtowerr or auto-updates).
-
+Based on linuxserver's [Debian BaseImage](https://github.com/linuxserver/docker-baseimage-debian). 
 ```
 version: '3'
 
