@@ -21,5 +21,5 @@ jobs:
         parent-image: ghcr.io/linuxserver/baseimage-debian:bookworm
         my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-    - uses: ./.github/workflows/docker-image.yml
+    - uses: parttimer777/docker-jumpbox/.github/workflows/docker-image.yml@main
       if: steps.check.outputs.out-of-date == 'true'
