@@ -23,6 +23,9 @@ jobs:
         my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
     
   build-docker-image:
+    permissions:
+      contents: read
+      packages: write
     if: needs.check-updates.out-of-date == 'true'
     needs: [check-updates]
     uses: parttimer777/docker-jumpbox/.github/workflows/docker-image.yml@main
