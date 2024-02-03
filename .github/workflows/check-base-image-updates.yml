@@ -1,9 +1,9 @@
 name: Check Base Image Updates
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0,12 * * *"
-  workflow_call:
   
 env:
   REGISTRY: ghcr.io
