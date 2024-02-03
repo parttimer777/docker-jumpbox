@@ -9,17 +9,19 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   
 jobs:
-  build:
+  check-updates:
     runs-on: ubuntu-latest
-      
+    outputs:
+      out-of-date: ${{ steps.check.outputs.out-of-date }}
     steps:
-
     - name: Check Docker Base Image for Updates
       id: check
       uses: twiddler/is-my-docker-parent-image-out-of-date@v1
       with:
         parent-image: ghcr.io/linuxserver/baseimage-debian:bookworm
         my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-    - uses: parttimer777/docker-jumpbox/.github/workflows/docker-image.yml@main
-      if: steps.check.outputs.out-of-date == 'true'
+    
+  build-docker-image:
+    if: needs.check-updates.out-of-date == 'true'
+    needs: [check-updates]
+    uses: parttimer777/docker-jumpbox/.github/workflows/docker-image.yml@main
