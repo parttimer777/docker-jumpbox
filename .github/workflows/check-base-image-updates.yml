@@ -1,4 +1,4 @@
-name: Check Base Image Updates
+name: Check Dependency Updates
 
 on:
   workflow_dispatch:
@@ -14,13 +14,41 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       out-of-date: ${{ steps.check.outputs.out-of-date }}
+    permissions:
+      contents: write
     steps:
-    - name: Check Docker Base Image for Updates
-      id: check
-      uses: twiddler/is-my-docker-parent-image-out-of-date@v1
-      with:
-        parent-image: ghcr.io/linuxserver/baseimage-debian:bookworm
-        my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+    # - name: Check Docker Base Image for Updates
+    #   id: check
+    #   uses: twiddler/is-my-docker-parent-image-out-of-date@v1
+    #   with:
+    #     parent-image: ghcr.io/linuxserver/baseimage-debian:bookworm
+    #     my-image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+    - uses: actions/checkout@v3
+    - name: Check Updates
+      id: check-updates
+      run: |
+        USER_IMAGE=ghcr.io/linuxserver/baseimage-debian:bookworm
+        
+        baseimageHash=$(curl -s -H "Authorization: Bearer $token" "https://ghcr.io/v2/${USER_IMAGE}/manifests/amd64-bookworm" | jq -r '.config.digest')
+        [ -z "$baseimageHash" ] \
+          && echo "Invalid base image version: $baseimageHash" \
+          && exit 1
+        
+        echo "$baseimageHash" 
+        jq -n --arg baseimageHash "$baseimageHash" \
+          '$ARGS.named' > versions.json
+
+        # check if anything changed
+        if [[ `git status --porcelain` ]]; then
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add versions.json
+          git commit -m "Version updates" .
+          git push
+          # pushes by github-actions[bot] wont trigger subsequent builds as per https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          # so we do it explicitly
+          echo "out-of-date=true" >> "$GITHUB_OUTPUT"
+        fi
     
   build-docker-image:
     permissions:
