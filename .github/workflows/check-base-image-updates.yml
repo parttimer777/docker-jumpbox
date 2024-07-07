@@ -13,7 +13,7 @@ jobs:
   check-updates:
     runs-on: ubuntu-latest
     outputs:
-      out-of-date: ${{ steps.check.outputs.out-of-date }}
+      out-of-date: ${{ steps.check-updates.outputs.out-of-date }}
     permissions:
       contents: write
     steps:
