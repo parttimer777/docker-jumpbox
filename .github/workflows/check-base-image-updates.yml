@@ -27,7 +27,7 @@ jobs:
     - name: Check Updates
       id: check-updates
       run: |
-        USER_IMAGE=baseimage-debian:bookworm
+        USER_IMAGE=linuxserver/baseimage-debian
         
         baseimageHash=$(curl -s -H "Authorization: Bearer $token" "https://ghcr.io/v2/${USER_IMAGE}/manifests/amd64-bookworm" | jq -r '.config.digest')
         [ -z "$baseimageHash" ] \
